@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopSphere Admin Dashboard</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="./index.html" class="logo">ShopSphere</a>
+      <nav class="nav-links">
+        <a href="./index.html">Store</a>
+        <button id="logout-btn" class="admin-logout" type="button">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container admin-page">
+    <div class="admin-heading">
+      <div>
+        <p class="admin-eyebrow">Administration</p>
+        <h1>Store Dashboard</h1>
+      </div>
+      <span id="adminUser"></span>
+    </div>
+
+    <div id="adminMessage" class="admin-message" role="status"></div>
+
+    <section class="kpi-grid" aria-label="Store metrics">
+      <article class="kpi-card"><span>Revenue</span><strong id="revenueKpi">₹0</strong></article>
+      <article class="kpi-card"><span>Orders</span><strong id="ordersKpi">0</strong></article>
+      <article class="kpi-card"><span>Products</span><strong id="productsKpi">0</strong></article>
+      <article class="kpi-card kpi-warning"><span>Low Stock</span><strong id="lowStockKpi">0</strong></article>
+    </section>
+
+    <section class="admin-grid">
+      <article class="admin-panel">
+        <h2>Add New Product</h2>
+        <form id="productForm" class="admin-form">
+          <label>Name<input name="name" required /></label>
+          <label>Category
+            <select name="category_id" id="categorySelect">
+              <option value="">General</option>
+            </select>
+          </label>
+          <label>Price (₹)<input name="price" type="number" min="0" step="0.01" required /></label>
+          <label>Stock<input name="stock" type="number" min="0" step="1" value="0" required /></label>
+          <label>SKU<input name="sku" placeholder="Optional" /></label>
+          <label>Image URL<input name="image_url" type="url" placeholder="https://..." /></label>
+          <label>Description<textarea name="description" rows="3"></textarea></label>
+          <button class="checkout-btn" type="submit">Add Product</button>
+        </form>
+      </article>
+
+      <article class="admin-panel inventory-panel">
+        <div class="panel-heading">
+          <h2>Product Inventory</h2>
+          <span id="inventoryCount"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr>
+            </thead>
+            <tbody id="inventoryTable"><tr><td colspan="5">Loading inventory...</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="admin-panel">
+      <div class="panel-heading">
+        <h2>Order Fulfillment</h2>
+        <span id="fulfillmentCount"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th></tr>
+          </thead>
+          <tbody id="ordersTable"><tr><td colspan="6">Loading orders...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="./shared/api.js"></script>
+  <script src="./admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopSphere – Modern Online Store</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="./index.html" class="logo" aria-label="ShopSphere home">
+          <span class="logo-mark">S</span>
+          <span>ShopSphere</span>
+        </a>
+      </div>
+
+      <form class="search-bar" id="searchForm">
+        <input type="text" id="searchInput" placeholder="Search for electronics, fashion, home..." />
+        <button type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.8 18.1a7.3 7.3 0 1 1 5.16-2.14l4.03 4.04-1.42 1.41-4.03-4.03a7.27 7.27 0 0 1-3.74 1.72Zm0-2.1a5.2 5.2 0 1 0 0-10.4 5.2 5.2 0 0 0 0 10.4Z"/></svg>
+        </button>
+      </form>
+
+      <nav class="nav-right" aria-label="Primary navigation">
+        <div class="nav-store-group">
+          <a href="#products" class="nav-link" aria-label="Products">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4V4Zm2 2v12h12V6H6Zm2 2h8v2H8V8Zm0 4h8v2H8v-2Z"/></svg>
+            <span>Products</span>
+          </a>
+          <a href="#wishlist" id="wishlistLink" class="nav-link" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-4.9-8-11a4.5 4.5 0 0 1 8-2.85A4.5 4.5 0 0 1 20 10c0 6.1-8 11-8 11Zm0-2.7c1.73-1.19 6-4.65 6-8.3a2.5 2.5 0 0 0-4.8-1.05L12 10.45l-1.2-1.5A2.5 2.5 0 0 0 6 10c0 3.65 4.27 7.11 6 8.3Z"/></svg>
+            <span class="nav-label">Wishlist</span>
+          </a>
+          <a href="#cart" id="cartLink" class="nav-link" aria-label="Cart">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM2 2h3l2.1 10.5A3 3 0 0 0 10 15h7.6a3 3 0 0 0 2.9-2.24l1.3-5.26H7.1L6.7 5H2V2Zm5.8 7h11.67l-.9 3.62A1 1 0 0 1 17.6 13H10a1 1 0 0 1-.97-.76L7.8 9Z"/></svg>
+            <span class="nav-label">Cart</span>
+          </a>
+        </div>
+        <div id="auth-nav" class="nav-account">
+          <a href="./auth.html" class="nav-login">Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-eyebrow">Curated for you</span>
+      <h1>Everything you love, in one place.</h1>
+      <p>Discover trusted brands and everyday essentials at prices you'll love.</p>
+      <a href="#products" class="btn-primary">Explore Products</a>
+    </div>
+  </section>
+
+  <main class="container" id="products">
+    <div class="status-banner">
+      <span><strong>System Connection Status:</strong></span>
+      <span id="api-status" class="badge badge-loading">Checking backend...</span>
+    </div>
+
+    <div class="catalog-toolbar">
+      <div id="categoryFilters" class="category-filter-bar">
+        <button class="cat-btn active" data-category="all">All Products</button>
+      </div>
+
+      <select id="sortSelect" class="sort-select" aria-label="Sort products">
+        <option value="">Sort: Featured</option>
+        <option value="newest">Newest Arrivals</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <h2 class="section-title" id="catalogTitle">Featured Products</h2>
+    <div id="productGrid" class="product-grid">
+      <div class="empty-state">
+        <p>Loading products...</p>
+      </div>
+    </div>
+  </main>
+
+  <div id="drawerBackdrop" class="drawer-backdrop"></div>
+
+  <aside id="cartDrawer" class="side-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>Your Cart</h2>
+      <button class="drawer-close" type="button" data-close-drawer aria-label="Close cart">&times;</button>
+    </div>
+    <div id="cartDrawerItems" class="drawer-items"></div>
+    <div class="drawer-footer">
+      <div class="drawer-subtotal"><span>Subtotal</span><strong id="cartSubtotal">₹0</strong></div>
+      <button id="proceedCheckoutBtn" class="checkout-btn" type="button">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <aside id="ordersDrawer" class="side-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>My Orders</h2>
+      <button class="drawer-close" type="button" data-close-drawer aria-label="Close orders">&times;</button>
+    </div>
+    <div id="ordersDrawerItems" class="drawer-items"></div>
+  </aside>
+
+  <aside id="wishlistDrawer" class="side-drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>Your Wishlist</h2>
+      <button class="drawer-close" type="button" data-close-drawer aria-label="Close wishlist">&times;</button>
+    </div>
+    <div id="wishlistDrawerItems" class="drawer-items"></div>
+  </aside>
+
+  <div id="checkoutModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 id="checkoutTitle">Checkout</h2>
+        <button id="closeCheckoutModal" class="drawer-close" type="button" aria-label="Close checkout">&times;</button>
+      </div>
+      <form id="checkoutForm">
+        <label for="shippingAddress">Shipping Address</label>
+        <textarea id="shippingAddress" name="shippingAddress" rows="4" required placeholder="Enter your complete shipping address"></textarea>
+
+        <label for="paymentMethod">Payment Method</label>
+        <select id="paymentMethod" name="paymentMethod" required>
+          <option value="UPI">UPI</option>
+          <option value="Card">Card</option>
+          <option value="COD">COD</option>
+        </select>
+
+        <div class="checkout-total">
+          <span>Total Payable</span>
+          <strong id="checkoutTotal">₹0</strong>
+        </div>
+        <button id="placeOrderBtn" class="checkout-btn" type="submit">Place Order</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="./shared/api.js"></script>
+  <script src="./home.js"></script>
+</body>
+</html>
