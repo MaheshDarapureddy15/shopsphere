@@ -1,4 +1,10 @@
-const API_BASE_URL = `http://${window.location.hostname}:5001/api`;
+const isLocalhost =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1';
+
+const API_BASE_URL = isLocalhost
+  ? `http://${window.location.hostname}:5001/api`
+  : 'https://shopsphere-4v8h.onrender.com/api';
 
 async function apiRequest(endpoint, options = {}) {
   const headers = {

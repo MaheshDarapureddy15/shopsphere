@@ -14,10 +14,24 @@ const app = express();
 
 app.use(helmet());
 app.use(cors({
-  origin: [
-    'http://127.0.0.1:5500',
-    'http://localhost:5500'
-  ],
+  origin(origin, callback) {
+    if (!origin) return callback(null, true);
+
+    const allowedOrigins = [
+      'http://127.0.0.1:5500',
+      'http://localhost:5500'
+    ];
+    if (process.env.FRONTEND_URL) {
+      allowedOrigins.push(process.env.FRONTEND_URL.replace(/\/$/, ''));
+    }
+
+    const isVercelApp = /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/i.test(origin);
+    if (allowedOrigins.includes(origin) || isVercelApp) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Origin is not allowed by CORS'));
+  },
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
