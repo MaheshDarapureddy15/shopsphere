@@ -11,6 +11,11 @@ async function apiRequest(endpoint, options = {}) {
     ...(options.headers || {})
   };
 
+  const token = window.localStorage.getItem('shopsphere_token');
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   if (options.body !== undefined && options.body !== null) {
     headers['Content-Type'] = headers['Content-Type'] || 'application/json';
   }
@@ -23,6 +28,22 @@ async function apiRequest(endpoint, options = {}) {
 
   const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
   const data = await response.json().catch(() => ({}));
+
+  if (
+    (endpoint === '/auth/login' || endpoint === '/auth/register') &&
+    response.ok &&
+    data.token
+  ) {
+    window.localStorage.setItem('shopsphere_token', data.token);
+  }
+
+  if (endpoint === '/auth/logout') {
+    window.localStorage.removeItem('shopsphere_token');
+  }
+
+  if (response.status === 401) {
+    window.localStorage.removeItem('shopsphere_token');
+  }
 
   if (!response.ok) {
     throw new Error(data.message || 'Something went wrong');

@@ -1,10 +1,16 @@
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/userModel');
 
-// Verify JWT from HttpOnly cookie and attach user to req.user
+// Verify JWT from an HttpOnly cookie or an Authorization bearer token.
 const protect = async (req, res, next) => {
   try {
-    const token = req.cookies?.token;
+    let token = req.cookies?.token;
+    if (!token) {
+      const authorization = req.headers.authorization;
+      if (authorization?.startsWith('Bearer ')) {
+        token = authorization.slice(7).trim();
+      }
+    }
 
     if (!token) {
       return res.status(401).json({
